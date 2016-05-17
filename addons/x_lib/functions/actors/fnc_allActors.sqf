@@ -26,8 +26,7 @@ Author:
 	Naught
 ---------------------------------------------------------------------------- */
 
-private ["_group"];
-_group = [_this, 1, ["GROUP"], ALiVE_actors_mainGroup] call ALiVE_fnc_param;
+private _group = [_this, 1, ["GROUP"], ALiVE_actors_mainGroup] call ALiVE_fnc_param;
 
 if (!isNil "_group") then
 {
