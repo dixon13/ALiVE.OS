@@ -1,4 +1,4 @@
-class cfgFunctions {
+class CfgFunctions {
     class PREFIX {
         class COMPONENT { // Below requires next update of CBA
             PATHTO_FNC(profileSystemInit);
