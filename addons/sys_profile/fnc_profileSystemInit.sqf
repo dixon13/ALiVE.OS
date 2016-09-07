@@ -20,9 +20,9 @@ Peer Reviewed:
 nil
 ---------------------------------------------------------------------------- */
 
-private ["_logic","_debug","_persistent","_syncMode","_syncedUnits","_spawnRadius","_spawnTypeJetRadius","_spawnTypeHeliRadius","_activeLimiter","_uid","_moduleID"];
+private ["_debug","_persistent","_syncMode","_syncedUnits","_spawnRadius","_spawnTypeJetRadius","_spawnTypeHeliRadius","_activeLimiter","_uid","_moduleID"];
 
-PARAMS_1(_logic);
+params ["_logic"];
 
 // Confirm init function available
 ASSERT_DEFINED("ALIVE_fnc_profileSystem","Main function missing");
@@ -56,6 +56,7 @@ if(isServer) then {
     };
 
     ALIVE_profileSystem = [nil, "create"] call ALIVE_fnc_profileSystem;
+    diag_log format["============ ************* ALIVE_profileSystem = %1 ************ ===========", ALIVE_profileSystem];
     [ALIVE_profileSystem, "init"] call ALIVE_fnc_profileSystem;
     [ALIVE_profileSystem, "debug", _debug] call ALIVE_fnc_profileSystem;
     [ALIVE_profileSystem, "persistent", _persistent] call ALIVE_fnc_profileSystem;
@@ -73,32 +74,6 @@ if(isServer) then {
     PublicVariable QMOD(SYS_PROFILE);
 
     [ALIVE_profileSystem,"start"] call ALIVE_fnc_profileSystem;
-};
-
-if(hasInterface) then {
-
-    waituntil {!isnil QMOD(PROFILE)};
-
-    player addEventHandler ["killed",
-    {
-        []spawn {
-            _uid = getPlayerUID player;
-
-            ["server","PS",[["KILLED",_uid,player],{call ALIVE_fnc_createProfilesFromPlayers}]] call ALiVE_fnc_BUS;
-        };
-    }];
-    player addEventHandler ["respawn",
-    {
-        []spawn {
-            // wait for player
-            waitUntil {sleep 0.3; alive player};
-            waitUntil {sleep 0.3; (getPlayerUID player) != ""};
-
-            _uid = getPlayerUID player;
-
-            ["server","PS",[["RESPAWN",_uid,player],{call ALIVE_fnc_createProfilesFromPlayers}]] call ALiVE_fnc_BUS;
-        };
-    }];
 };
 
 [_logic, false, _moduleID] call ALIVE_fnc_dumpModuleInit;
